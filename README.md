@@ -32,8 +32,16 @@ Given a social network API:
 * The MVC (Model - View - Controller) architecture
 
 ## Social-Net Logic
-... logic discussion goes here
+This application follows the MVC (model-view-controller) architecture.  
+
+The (data) models and associated schema are defined in the \models directory.  The models are packaged together in the 'index.js' file found in the \models directory.
+
+The API routes to the server are defined in the \routes\api directory.  The routes are packaged together in the 'index.js' file in the \routes\api directory.  In the \routes directory, the 'index.js' file prepends the routes with '\api' to simplify later access and coding.
+
+The files in the \controllers directory tie the models and routes together.  The functions here are the call-backs for the routes, this is where the actual database access happens.
+
+The primary (parent) data is the 'users' document.  'Thoughts' and 'Friends' are sub-documents to 'users', and 'responses' (reactions) are sub-documents to 'thoughts'.
 
 
 ## Application Screen Shot
-The following screen shots show that (test) operation of the API routes in 'Insomnia'.
+The following screen shots show the (test) operation of the API routes in 'Insomnia'.
