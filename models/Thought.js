@@ -7,6 +7,42 @@
 const { Schema, model } = require( 'mongoose' );
 const dateFormat = require('../utils/dateFormat');
 
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Define the 'reaction' schema. Reactions will be sub-documents to 'thoughts'.
+const ReactionSchema = new Schema(
+  {
+    // Set custom id to avoid confusion with parent thought _id
+    reactionId: {
+      type: Schema.Types.ObjectId,
+      default: () => new Types.ObjectId()
+    },
+    reactionBody: {
+      type: String,
+      required: true,
+      maxlength: 280
+    },
+    username: {
+      type: String,
+      required: true,
+      trim: true
+    },
+    createdAt: {
+      type: Date,
+      default: Date.now,
+      get: createdAtVal => dateFormat(createdAtVal)      // reformat date information (from \utils\dateFormat.js)
+    }
+  },
+  {
+    toJSON: {
+      getters: true
+    }
+  } 
+);
+    
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Define the 'Thought' schema
 
 const ThoughtSchema = new Schema ( {
@@ -47,38 +83,6 @@ const ThoughtSchema = new Schema ( {
     })
 
 
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // Define the 'reaction' schema. Reactions will be sub-documents to 'thoughts'.
-const ReactionSchema = new Schema(
-  {
-    // Set custom id to avoid confusion with parent thought _id
-    reactionId: {
-      type: Schema.Types.ObjectId,
-      default: () => new Types.ObjectId()
-    },
-    reactionBody: {
-      type: String,
-      required: true,
-      maxlength: 280
-    },
-    username: {
-      type: String,
-      required: true,
-      trim: true
-    },
-    createdAt: {
-      type: Date,
-      default: Date.now,
-      get: createdAtVal => dateFormat(createdAtVal)      // reformat date information (from \utils\dateFormat.js)
-    }
-  },
-  {
-    toJSON: {
-      getters: true
-    }
-  } 
-);
-    
 // Create the thought model from the schema
     
 const Thought = model( 'Thought', ThoughtSchema );
