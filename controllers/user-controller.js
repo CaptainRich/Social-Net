@@ -12,11 +12,11 @@ const userController = {
 
         User.find({})
             .populate({                 // necessary to display any associated 'thoughts'
-                path: 'thoughts',          // attached to this user.
-                select: '-__v'             // don't return the __v field on 'thoughts'
+                path: 'thoughts',       // attached to this user.
+                select: '-__v'          // don't return the __v field on 'thoughts'
             })
-            .select('-__v')              // don't return the __v field on users either
-            .sort({ _id: -1 })         // sort in descending order, so newest is first
+            .select('-__v')             // don't return the __v field on users either
+            .sort({ _id: -1 })          // sort in descending order, so newest is first
             .then(dbUserData => res.json(dbUserData))
             .catch(err => {
                 console.log(err);
@@ -58,7 +58,7 @@ const userController = {
 
     ///////////////////////////////////////////////////////////////////////////////////////////
     // Update a user by ID.
-    updateUser({ params, body }, res) {
+    updateUser({ params, body }, res) {                // destructure both the 'params' and the 'body'
 
         // "new:true" indicates return new version after modification
         User.findOneAndUpdate({ _id: params.id }, body, { new: true, runValidators: true })
@@ -94,7 +94,7 @@ const userController = {
 
     ///////////////////////////////////////////////////////////////////////////////////////////
     // Delete a user by ID.
-    deleteUser({ params }, res) {                               // destructure the params out of the 'req'
+    deleteUser({ params }, res) {                        // destructure the params out of the 'req'
 
     User.findOneAndDelete({ _id: params.id })
       .then(dbUserData => {

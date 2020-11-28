@@ -1,13 +1,15 @@
 
 
 
-// Import the dependencies
+// Import the dependencies, only need the 'Schema' constructor and the 'model' function 
+// from 'mongoose', so only import those.
 const { Schema, model } = require( 'mongoose' );
 const dateFormat = require('../utils/dateFormat');
 
 // Define the 'User' schema
 
 const UserSchema = new Schema ( {
+    
     username: {
         type: String,
         required: true,
@@ -45,16 +47,16 @@ const UserSchema = new Schema ( {
     },
     id: false                       // don't need this for virtuals
   }
-)
+);
 
 // Add the 'virtual property' to retrieve the length of the user's "friends" array field on query.
 UserSchema.virtual( 'friendCount').get(function() {
     return this.friends.length;
-})
+});
 
 
 // Create the user model from the schema
 
-const User = model( 'user', UserSchema );
+const User = model( 'User', UserSchema );
 
-module.exports = User;
+module.exports =  User;
