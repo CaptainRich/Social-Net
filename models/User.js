@@ -8,8 +8,8 @@ const dateFormat = require('../utils/dateFormat');
 
 // Define the 'User' schema
 
-const UserSchema = new Schema ( {
-    
+const UserSchema = new Schema ({
+
     username: {
         type: String,
         required: true,
@@ -46,7 +46,7 @@ const UserSchema = new Schema ( {
       getters:  true
     },
     id: false                       // don't need this for virtuals
-  }
+}
 );
 
 // Add the 'virtual property' to retrieve the length of the user's "friends" array field on query.
