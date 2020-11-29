@@ -20,10 +20,10 @@ router
   .post( createUser );
 
 // Route to add a friend to a user
-  router.route('/:userId').post(addFriendById);
+  router.route('/:userId/friends/:friendId').post(addFriendById);
 
   // Route to delete a friend from a user
-  router.route('/:userId/:friendId').delete(removeFriendById);
+  router.route('/:userId/friends/:friendId').delete(removeFriendById);
 
 // Set up GET one, PUT, and DELETE at /api/users/:id
 router
