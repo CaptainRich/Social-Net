@@ -40,7 +40,7 @@ The API routes to the server are defined in the \routes\api directory.  The rout
 
 The files in the \controllers directory tie the models and routes together.  The functions here are the call-backs for the routes, this is where the actual database access happens.
 
-The primary (parent) data is the 'users' document.  'Thoughts' and 'Friends' are sub-documents to 'users', and 'responses' (reactions) are sub-documents to 'thoughts'.
+The primary (parent) data is the 'users' document.  'Thoughts' and 'Friends' are sub-documents to 'users', and 'reactions' are sub-documents to 'thoughts'.
 
 
 ## Application Screen Shot

@@ -9,8 +9,8 @@ const {
         addThought, 
         updateThoughtById,
         removeThought,
-        addResponse,   
-        removeResponse   } = require('../../controllers/thought-controller');
+        addReaction,   
+        removeReaction  } = require('../../controllers/thought-controller');
 
 // Route to get all thoughts
 router.route('/').get(getAllThoughts);
@@ -30,17 +30,17 @@ router.route('/:userId').post(addThought);
 
 
 
-// Route to add a response to a Thought
-// /api/Thoughts/:thoughtId/responses
+// Route to add a reaction to a Thought
+// /api/Thoughts/:thoughtId/reaction
 router
-  .route('/:thoughtId/responses')
-  .post(addResponse);
+  .route('/:thoughtId/reactions')
+  .post(addReaction);
   
 
-// Route to delete a response from a Thought
+// Route to delete a reaction from a Thought
 router
-  .route('/:thoughtId:/responses')
-  .delete(removeResponse);
+  .route('/:thoughtId:/reactions')
+  .delete(removeReaction);
 
 
 

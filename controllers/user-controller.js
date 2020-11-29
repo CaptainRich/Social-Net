@@ -29,10 +29,11 @@ const userController = {
     getUserById({ params }, res) {                     // destructure the params out of the 'req'
 
         User.findOne({ _id: params.id })
-            .populate({                 // necessary to display any associated 'thoughts'
+            .populate({                    // necessary to display any associated 'thoughts'
                 path: 'thoughts',          // attached to this user.
                 select: '-__v'             // don't return the __v field on 'thoughts'
             })
+            .select('-__v')                // don't return the __v field on users either
             .then(dbUserData => {
                 // If no user is found, send 404
                 if (!dbUserData) {
@@ -79,9 +80,10 @@ const userController = {
         console.log(body);
         User.findOneAndUpdate(
               { _id: params.userId },
-              { $push: { friends: _id } },  // add the thought's ID to the user to update
+              { $push: { friends: _id } },   // add the friend's ID to the user to update
               { new: true }                  // we get back the updated user document (with the new thought included)
             )
+          .select("-__v")                    // don't return the __v field on users 
           .then(dbUserData => {
             if (!dbUserData) {
               res.status(404).json({ message: 'No user found with this id!' });
@@ -102,6 +104,8 @@ const userController = {
           res.status(404).json({ message: 'No user found with this id!' });
           return;
         }
+
+        ///////  Bonus: remove this user's associated thoughts ///////////////
         res.json(dbUserData);
       })
       .catch(err => res.status(400).json(err));
@@ -113,9 +117,10 @@ const userController = {
 
     User.findOneAndUpdate(
             { _id: params.userId },
-            { $pull: { thoughts: params.thoughtId } },     // now delete the thought from the user
-            { new: true }                                  // return the updated user information
+            { $pull: { friends: params.friendId } },     // now delete the friend from the user
+            { new: true }                                // return the updated user information
           )
+        .select("-__v")                                  // don't return the __v field on users 
         .then(dbUserData => {
           if (!dbUserData) {
             res.status(404).json({ message: 'No user found with this id!' });
