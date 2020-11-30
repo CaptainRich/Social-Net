@@ -78,9 +78,8 @@ const thoughtController = {
       console.log("Params = ", params );
       Thought.findOneAndUpdate(
             { _id: params.thoughtId },
-            { $pull: {thoughts: params.thoughtId} },    // Remove the existing thought
-            { $push: { thoughts: params.thoughtId } },  // add the new thought's ID to the user to update
-            { new: true }                  // we get back the updated user document (with the new thought included)
+            body,
+            { new: true, runValidators: true }
          )       
         .then(dbThoughtData => {
           if (!dbThoughtData) {
@@ -97,8 +96,8 @@ const thoughtController = {
 
         console.log("Adding a Reaction, params = ", params );
         console.log( "body = ", body );
-        Thought.findOneAndUpdate(
-          { _id: params.thoughtId }, 
+        Thought.findByIdAndUpdate(
+          { _id: params.id }, 
           { $push: { reactions: body } },   // add the reaction to the thought to update
           { new: true }                     // we get back the updated thought sub-document (with the new reaction  included)
         )
@@ -131,13 +130,6 @@ const thoughtController = {
             { new: true }                                  // return the updated user information
           );
         })
-        // .then(dbThoughtData => {
-        //   if (!dbThoughtData) {
-        //     res.status(404).json({ message: 'No user found with this id!' });
-        //     return;
-        //   }
-        //   res.json(dbThoughtData);
-        // })
         .then(dbThoughtData => {
           res.json(dbThoughtData)
         })
@@ -146,15 +138,22 @@ const thoughtController = {
 
   
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  // remove comment
+  // Remove reaction
   removeReaction({ params }, res) {
 
-    Thought.findOneAndUpdate(
-        { _id: params.thoughtId },     // remove the specific reaction from the reaction array when the reactionId matches
+    Thought.findByIdAndUpdate(
+        { _id: params.id },     // remove the specific reaction from the reaction array when the reactionId matches
         { $pull: { reactions: { reactionId: params.reactionId } } },    //the value of params.reactionId
         { new: true }
     )
-    .then(dbThoughtData => res.json(dbThoughtData))
+    .select("-__v")              // don't return the __v field on users either
+    .then((dbThoughtData) => {
+      if (!dbThoughtData) {
+        res.status(404).json({ message: "No reaction found with this id!" });
+        return;
+      }
+      res.json(dbThoughtData);
+    })
     .catch(err => res.json(err));
   
   }
