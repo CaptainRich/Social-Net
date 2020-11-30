@@ -75,12 +75,12 @@ const userController = {
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Add a thought to a user
-    addFriendById({ params, body }, res) {
+    addFriendById({ params }, res) {
 
-        console.log(body);
-        User.findOneAndUpdate(
+        //console.log('Adding a friend, params = ', params );
+        User.findByIdAndUpdate(
               { _id: params.userId },
-              { $push: { friends: _id } },   // add the friend's ID to the user to update
+              { $push: { friends: params.friendId } },   // add the friend's ID to the user to update
               { new: true }                  // we get back the updated user document (with the new thought included)
             )
           .select("-__v")                    // don't return the __v field on users 
@@ -98,6 +98,7 @@ const userController = {
     // Delete a user by ID.
     deleteUser({ params }, res) {                        // destructure the params out of the 'req'
 
+    console.log("Deleting a user, params = ", params );
     User.findOneAndDelete({ _id: params.id })
       .then(dbUserData => {
         if (!dbUserData) {
