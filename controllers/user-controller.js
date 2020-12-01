@@ -6,7 +6,8 @@ const userController = {
 
     //////////////////////////////////////////////////////////////////////////////////////
     // Get all the users.  This is the call-back function for the 
-    // 'get/api/users' route. The '.find' is similar to the 'squelize' '.findAll' method.
+    // The '.find' is similar to the 'squelize' '.findAll' method.
+    // Insomnia Route:  GET  http://localhost:3001/api/users
 
     getAllUsers(req, res) {
 
@@ -26,6 +27,7 @@ const userController = {
 
     /////////////////////////////////////////////////////////////////////////////////////
     // Get only one user, by ID.
+    // Insomnia Route:  GET  http://localhost:3001/api/users/:userId
     getUserById({ params }, res) {                     // destructure the params out of the 'req'
 
         User.findOne({ _id: params.id })
@@ -50,6 +52,7 @@ const userController = {
 
     ///////////////////////////////////////////////////////////////////////////////////////////
     // Create/add a new user.
+    // Insomnia Route:  POST  http://localhost:3001/api/users
     createUser({ body }, res) {                        // destructure the body out of the 'req'
 
         User.create(body)
@@ -59,6 +62,7 @@ const userController = {
 
     ///////////////////////////////////////////////////////////////////////////////////////////
     // Update a user by ID.
+    // Insomnia Route:  PUT  http://localhost:3001/api/users/:userId
     updateUser({ params, body }, res) {                // destructure both the 'params' and the 'body'
 
         // "new:true" indicates return new version after modification
@@ -74,7 +78,9 @@ const userController = {
     },
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // Add a thought to a user
+    // Add a friend to a user
+    // Insomnia Route:  POST  http://localhost:3001/api/users/:userId/friends/:friendId , where 'friendId' 
+    //                                                                                is another user's ID.
     addFriendById({ params }, res) {
 
         //console.log('Adding a friend, params = ', params );
@@ -96,6 +102,7 @@ const userController = {
 
     ///////////////////////////////////////////////////////////////////////////////////////////
     // Delete a user by ID.
+    // Insomnia Route:  DELETE  http://localhost:3001/api/users/:userId
     deleteUser({ params }, res) {                        // destructure the params out of the 'req'
 
     console.log("Deleting a user, params = ", params );
@@ -106,6 +113,8 @@ const userController = {
           return;
         }
 
+        // Need to remove this user from any 'friends' arrays.
+
         ///////  Bonus: remove this user's associated thoughts ///////////////
         res.json(dbUserData);
       })
@@ -113,7 +122,9 @@ const userController = {
     },
 
     ///////////////////////////////////////////////////////////////////////////////////////////
-    // Remove a friend by ID.
+    // Remove a friend from a user by ID.
+    // Insomnia Route:  DELETE  http://localhost:3001/api/users/:userId/friends/:friendId , where 'friendId' 
+    //                                                                                is another user's ID.
     removeFriendById({ params }, res) {
 
     User.findOneAndUpdate(

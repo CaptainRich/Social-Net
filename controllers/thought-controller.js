@@ -9,7 +9,8 @@ const thoughtController = {
 
     //////////////////////////////////////////////////////////////////////////////////////
     // Get all the thoughts.  This is the call-back function for the 
-    // 'get/api/thoughts' route. The '.find' is similar to the 'squelize' '.findAll' method.
+    // The '.find' is similar to the 'squelize' '.findAll' method.
+    // Insomnia Route:  GET  http://localhost:3001/api/thoughts
 
     getAllThoughts(req, res) {
 
@@ -26,6 +27,7 @@ const thoughtController = {
 
     /////////////////////////////////////////////////////////////////////////////////////
     // Get only one thought, by ID.
+    // Insomnia Route:  GET  http://localhost:3001/api/thoughts/:thoughtId
     getThoughtById({ params }, res) {                     // destructure the params out of the 'req'
 
         Thought.findOne({ _id: params.thoughtId })
@@ -48,6 +50,7 @@ const thoughtController = {
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Add a thought to a user
+    // Insomnia Route:  POST  http://localhost:3001/api/thoughts/:userId
     addThought({ params, body }, res) {
 
         console.log("Adding a thought, params = ", params );
@@ -71,7 +74,8 @@ const thoughtController = {
 
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // Update a thought by user ID
+    // Update a thought by thought ID
+    // Insomnia Route:  PUT  http://localhost:3001/api/thoughts/:thoughtId
     updateThoughtById({ params, body }, res) {
 
       console.log("Updating a thought, body = ", body);
@@ -92,16 +96,17 @@ const thoughtController = {
     },
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Add a reaction to a thought
+    // Insomnia Route:  PUT  http://localhost:3001/api/thoughts/:thoughtId/reactions
     addReaction( { params, body }, res ) {
 
         console.log("Adding a Reaction, params = ", params );
         console.log( "body = ", body );
-        Thought.findByIdAndUpdate(
-          { _id: params.id }, 
-          { $push: { reactions: body } },   // add the reaction to the thought to update
-          { new: true }                     // we get back the updated thought sub-document (with the new reaction  included)
+        Thought.findOneAndUpdate(
+          { _id: params.thoughtId }, 
+          { $push: { reactions: body } },     // add the reaction to the thought to update
+          { new: true, runValidators: true }  // we get back the updated thought sub-document (with the new reaction  included)
         )
-          .then(dbThoughtData => {
+           .then(dbThoughtData => {
             console.log( "dbThoughtData = ", dbThoughtData );
             if (!dbThoughtData) {
               res.status(404).json({ message: 'No thought found with this id!' });
@@ -115,7 +120,8 @@ const thoughtController = {
 
   
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // Remove thought
+    // Remove a thought
+    // Insomnia Route:  DELETE  http://localhost:3001/api/thoughts/:thoughtId
     removeThought({ params }, res) {
 
         console.log( "Deleting a thought, params= ", params );
@@ -139,17 +145,17 @@ const thoughtController = {
   
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // Remove reaction
+  // Insomnia Route:  DELETE  http://localhost:3001/api/thoughts/:thoughtId/reactions/:reactionId
   removeReaction({ params }, res) {
 
-    Thought.findByIdAndUpdate(
-        { _id: params.id },     // remove the specific reaction from the reaction array when the reactionId matches
+    Thought.findOneAndUpdate(
+        { _id: params.thoughtId },     // remove the specific reaction from the reaction array when the reactionId matches
         { $pull: { reactions: { reactionId: params.reactionId } } },    //the value of params.reactionId
         { new: true }
     )
-    .select("-__v")              // don't return the __v field on users either
     .then((dbThoughtData) => {
       if (!dbThoughtData) {
-        res.status(404).json({ message: "No reaction found with this id!" });
+        res.status(404).json({ message: "No thought found with this id!" });
         return;
       }
       res.json(dbThoughtData);

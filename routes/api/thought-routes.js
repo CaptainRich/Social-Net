@@ -34,12 +34,12 @@ router.route('/:userId').post(addThought);
 // /api/Thoughts/:thoughtId/reaction
 router
   .route('/:thoughtId/reactions')
-  .post(addReaction);
+  .put(addReaction);
   
 
 // Route to delete a reaction from a Thought
 router
-  .route('/:thoughtId:/reactions')
+  .route('/:thoughtId/reactions/:reactionId')
   .delete(removeReaction);
 
 
