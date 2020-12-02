@@ -7,7 +7,7 @@ A Social Networking Application
 * [Acceptance Criteria](#acceptance-criteria)
 * [Technologies Used](#technologies-used)
 * [Social-Net Logic](#social-net-logic)
-* [Application Screen Shot](#application-screen-shot)
+* [Application Screen Shot and Videos](#application-screen-shot)
 
 
 ## Project Objective
@@ -44,4 +44,10 @@ The primary (parent) data is the 'users' document.  'Thoughts' and 'Friends' are
 
 
 ## Application Screen Shot
-The following screen shots show the (test) operation of the API routes in 'Insomnia'.
+The following screen shot shows the (test) operation of the API routes in 'Insomnia'.  The referenced videos can be found in the \videos subdirectory of the repository.
+
+![Social-Net Image](./videos/insomnia1.jpg)
+
+![Social-Net Video1](./videos/social-video1.mp4)
+![Social-Net Video2](./videos/social-video2.mp4)
+![Social-Net Video3](./videos/social-video3.mp4)
