@@ -1,13 +1,13 @@
 # Social-Net
-A Social Networking Application
-(Richard Ay, November 2020)
+A Social Networking Application - Backend
+(Richard Ay, Nov/Dec 2020)
 
 ## Table of Contents
 * [Project Objective](#project-objective)
 * [Acceptance Criteria](#acceptance-criteria)
 * [Technologies Used](#technologies-used)
 * [Social-Net Logic](#social-net-logic)
-* [Application Screen Shot and Videos](#application-screen-shot)
+* [Application Screen Shot and Videos](#application-screen-shot-and-videos)
 
 
 ## Project Objective
@@ -43,11 +43,23 @@ The files in the \controllers directory tie the models and routes together.  The
 The primary (parent) data is the 'users' document.  'Thoughts' and 'Friends' are sub-documents to 'users', and 'reactions' are sub-documents to 'thoughts'.
 
 
-## Application Screen Shot
-The following screen shot shows the (test) operation of the API routes in 'Insomnia'.  The referenced videos can be found in the \videos subdirectory of the repository.
+## Application Screen Shot and Videos
+The following screen shot shows the (test) operation of the API routes in 'Insomnia'.  The four referenced videos can be found in the \videos subdirectory of the repository.
 
 ![Social-Net Image](./videos/insomnia1.jpg)
 
+First Video & Content:
 ![Social-Net Video1](./videos/social-video1.mp4)
+The first video shows: Server Startup, AddAUser, GetAllUsers, UpdateAUser, GetAUserById, AddAThought, GetAllThoughts.
+
+Second Video & Content:
 ![Social-Net Video2](./videos/social-video2.mp4)
+The second video shows: GetAThoughtById, UpdateAThought, AddAFriend.  When adding another 'thought' here, a typo in the Insomnia route caused the '404 error'.  This was corrected in Insomnia and the action (successfully) invoked.
+
+Third Video & Content:
 ![Social-Net Video3](./videos/social-video3.mp4)
+The third video shows: AddAFriend, GetUserById, DeleteAFriend, AddAThought, DeleteAThought.
+
+Fourth Video & Content:
+![Social-Net Video4](./videos/social-video4.mp4)
+The fourth video shows: Server Startup, AddReaction, RemoveReaction, DeleteAUser (which deletes associated thoughts and friends).
