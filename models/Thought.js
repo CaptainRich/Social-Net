@@ -4,7 +4,7 @@
 
 
 // Import the dependencies
-const { Schema, model } = require( 'mongoose' );
+const { Schema, model, Types } = require( 'mongoose' );
 const dateFormat = require('../utils/dateFormat');
 
 
@@ -65,7 +65,7 @@ const ThoughtSchema = new Schema ( {
         trim: true
     },
     
-  reactions: [ ReactionSchema ]
+  reactions: [ReactionSchema]
 
 },
 {

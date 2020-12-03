@@ -1,5 +1,5 @@
 
-const { User } = require('../models');
+const { User, Thought } = require('../models');
 
 const userController = {
 
@@ -114,9 +114,20 @@ const userController = {
         }
 
         // Need to remove this user from any 'friends' arrays.
+        User.updateMany(
+          { _id: { $in: dbUserData.friends } },  // IF the ID exists in the 'friends' array, 
+          { $pull: { friends: params.id } }      //   remove it.
+        )
 
-        ///////  Bonus: remove this user's associated thoughts ///////////////
-        res.json(dbUserData);
+        // Remove this user's associated thoughts 
+        .then( () => {
+          Thought.deleteMany( { username: dbUserData.username })
+          .then( () => {
+             res.json("User (and associated thoughts) successfully removed.");
+          })
+          .catch( (err) => res.status(400).json(err) );
+        })
+        .catch( (err) => res.status(400).json(err) );
       })
       .catch(err => res.status(400).json(err));
     },

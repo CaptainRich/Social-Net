@@ -24,7 +24,7 @@ router.route('/:thoughtId')
 .delete(removeThought);
 
 // Route to add a Thought to a user
-// /api/Thoughts/<userId>
+// /api/Thoughts/:userId
 router.route('/:userId').post(addThought);
 
 
@@ -38,6 +38,7 @@ router
   
 
 // Route to delete a reaction from a Thought
+// /api/Thoughts/:thoughtId/reaction/:reactionId
 router
   .route('/:thoughtId/reactions/:reactionId')
   .delete(removeReaction);

@@ -102,9 +102,9 @@ const thoughtController = {
         console.log("Adding a Reaction, params = ", params );
         console.log( "body = ", body );
         Thought.findOneAndUpdate(
-          { _id: params.thoughtId }, 
-          { $push: { reactions: body } },     // add the reaction to the thought to update
-          { new: true, runValidators: true }  // we get back the updated thought sub-document (with the new reaction  included)
+          { _id: params.thoughtId },              // Note that $addToSet is the same as $push, except  it won't duplicate an entry.
+          { $addToSet: { reactions: body } },     // add the reaction to the thought to update
+          { new: true }  // we get back the updated thought sub-document (with the new reaction  included)
         )
            .then(dbThoughtData => {
             console.log( "dbThoughtData = ", dbThoughtData );
@@ -114,7 +114,7 @@ const thoughtController = {
             }
             res.json(dbThoughtData);
           })
-          .catch(err => res.json(err));
+          .catch(err => res.status(500).json(err));
       },
   
 
@@ -148,9 +148,10 @@ const thoughtController = {
   // Insomnia Route:  DELETE  http://localhost:3001/api/thoughts/:thoughtId/reactions/:reactionId
   removeReaction({ params }, res) {
 
+    console.log("Deleting a Reaction, params = ", params );
     Thought.findOneAndUpdate(
         { _id: params.thoughtId },     // remove the specific reaction from the reaction array when the reactionId matches
-        { $pull: { reactions: { reactionId: params.reactionId } } },    //the value of params.reactionId
+        { $pull: { reactions: { _id: params.reactionId } } },    //the value of params.reactionId
         { new: true }
     )
     .then((dbThoughtData) => {
@@ -160,7 +161,7 @@ const thoughtController = {
       }
       res.json(dbThoughtData);
     })
-    .catch(err => res.json(err));
+    .catch(err => res.status(500).json(err));
   
   }
 }   
